@@ -50,6 +50,13 @@
         - name: Install the oc binary
           when: oc_installed.rc not in [0]
           block:
+            - name: Download the OC binary if proxy is not present 
+              ansible.builtin.get_url:
+                url: https://mirror.openshift.com/pub/openshift-v4/{{ ansible_architecture }}/clients/ocp/stable/openshift-client-linux.tar.gz
+                dest: /tmp/openshift-client-linux.tar.gz
+                mode: 0755
+              when: proxy is not defined
+
             - name: Download the OC binary if it is not present
               ansible.builtin.get_url:
                 url: https://mirror.openshift.com/pub/openshift-v4/{{ ansible_architecture }}/clients/ocp/stable/openshift-client-linux.tar.gz
@@ -59,6 +66,7 @@
                 http_proxy: "{{ proxy.http_proxy | default(omit) }}"
                 https_proxy: "{{ proxy.https_proxy | default(omit) }}"
                 no_proxy: "{{ proxy.no_proxy | default(omit) }}"
+              when: proxy is defined
 
             - name: Extract the oc binary
               ansible.builtin.unarchive:
@@ -84,6 +92,13 @@
         - name: Install the oc-mirror plugin
           when: oc_mirror_installed.rc not in [0]
           block:
+            - name: Download the oc-mirror plugin when proxy is not defined 
+              ansible.builtin.get_url:
+                url: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/oc-mirror.tar.gz
+                dest: /tmp/oc-mirror.tar.gz
+                mode: 0755
+              when: proxy is not defined
+
             - name: Download the oc-mirror plugin
               ansible.builtin.get_url:
                 url: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/stable/oc-mirror.tar.gz
@@ -93,6 +108,7 @@
                 http_proxy: "{{ proxy.http_proxy | default(omit) }}"
                 https_proxy: "{{ proxy.https_proxy | default(omit) }}"
                 no_proxy: "{{ proxy.no_proxy | default(omit) }}"
+              when: proxy is defined
 
             - name: Extract the oc-mirror binary
               ansible.builtin.unarchive:
@@ -157,6 +173,10 @@
       environment:
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
       register: oc_mirror_output
+
+    - name: Display oc_mirror_output variable
+      ansible.builtin.debug:
+        msg: "{{ oc_mirror_output }}"
 
     - name: Display the command output
       ansible.builtin.debug:
