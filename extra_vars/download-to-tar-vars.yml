@@ -4,7 +4,7 @@
 # local_rh_pull_secret_path and rh_pull_secret are mutually exclusive
 
 # local_rh_pull_secret_path: /home/kemo/rh-pull-secret
-rh_pull_secret: "{{ lookup('file', '/home/kemo/rh-pull-secret') }}"
+rh_pull_secret: "{{ lookup('file', '~/rh-pull-secret') }}"
 
 # target_rh_pull_secret_path is the user path where the authentication file will be stored on the remote host
 target_rh_pull_secret_path: /root/.docker/config.json
