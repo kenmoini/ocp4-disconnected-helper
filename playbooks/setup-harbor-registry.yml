@@ -103,15 +103,29 @@
         dest: /etc/docker/certs.d/{{ harbor_hostname }}:443/{{ harbor_hostname }}.key
         mode: 0644
 
+    - name: Download the Harbor offline installation package without proxy settings
+      when: proxy is not defined
+      ansible.builtin.get_url:
+        url: https://github.com/goharbor/harbor/releases/download/{{ harbor_version }}/harbor-offline-installer-{{ harbor_version }}.tgz
+        dest: /opt/harbor-offline-installer-{{ harbor_version }}.tgz
+        mode: 0644
+
     - name: Download the Harbor offline installation package
       ansible.builtin.get_url:
         url: https://github.com/goharbor/harbor/releases/download/{{ harbor_version }}/harbor-offline-installer-{{ harbor_version }}.tgz
         dest: /opt/harbor-offline-installer-{{ harbor_version }}.tgz
         mode: 0644
+      when: proxy is defined
       environment:
         http_proxy: "{{ proxy.http_proxy | default(omit) }}"
         https_proxy: "{{ proxy.https_proxy | default(omit) }}"
         no_proxy: "{{ proxy.no_proxy | default(omit) }}"
+
+    - name: Create the Harbor installation directory
+      ansible.builtin.file:
+        path: /opt/harbor
+        state: directory
+        mode: 0755
 
     - name: Extract the Harbor offline installation package
       ansible.builtin.unarchive:
