@@ -7,23 +7,6 @@
 - name: Install Harbor Container Registry to RHEL
   hosts: harbor
   become: true
-    # ======================================
-    # Probably don't need to modify the following
-    packages:
-      - yum-utils
-      - openssl
-      - firewalld
-      - cockpit
-      - cockpit-storaged
-      - nano
-
-    docker_packages:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
-      - docker-buildx-plugin
-      - docker-compose-plugin
-
   tasks:
     - name: Install needed packages
       ansible.builtin.package:

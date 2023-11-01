@@ -189,3 +189,20 @@ ssl_certificate_key: |
   -----BEGIN PRIVATE KEY-----
   *************************************************************
   -----END PRIVATE KEY-----
+
+# ======================================
+# Probably don't need to modify the following
+packages:
+  - yum-utils
+  - openssl
+  - firewalld
+  - cockpit
+  - cockpit-storaged
+  - nano
+
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
