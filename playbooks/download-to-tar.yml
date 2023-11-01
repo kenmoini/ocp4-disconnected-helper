@@ -142,6 +142,13 @@
     - name: Clear the mirror path if requested
       when: clean_mirror_path
       block:
+        - name: if target_mirror_path does not exist create the directory 
+          ansible.builtin.file:
+            path: "{{ target_mirror_path }}"
+            state: directory
+            owner: root
+            group: root
+            mode: 0755
         - name: Find any tar files that were already packaged
           ansible.builtin.find:
             paths: "{{ target_mirror_path }}/"
