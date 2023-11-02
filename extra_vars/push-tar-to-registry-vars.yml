@@ -6,6 +6,7 @@ registries:
     password: notHarbor12345
     server: disconn-harbor.d70.kemo.labs
     path: oc-mirror
+    registry_type: harbor
 
 # target_registry_auth_path is the user path where the authentication file will be stored on the remote host
 target_registry_auth_path: /root/.docker

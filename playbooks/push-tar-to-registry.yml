@@ -163,6 +163,28 @@
         dest: "{{ target_registry_auth_path }}/config.json"
         mode: 0600
 
+    - name: Create Harbor Projects
+      ansible.builtin.uri:
+        url: "https://{{ item.server }}/api/v2.0/projects"
+        method: POST
+        user: "{{ item.username }}"
+        password: "{{ item.password }}"
+        body_format: json
+        status_code: 201
+        validate_certs: no
+        body: |
+          {
+            "project_name": "{{ item.path }}",
+            "metadata": {
+              "public": false
+            }
+          }
+      loop: "{{ registries }}"
+      loop_control:
+        loop_var: item
+      register: result
+      when: item.registry_type == "harbor"
+
     - name: Push the mirror to the remote registry
       ansible.builtin.shell:
         cmd: |-
