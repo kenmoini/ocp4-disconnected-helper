@@ -229,9 +229,9 @@
       delay: 10
 
     - name: Display the result of the asynchronous task
-      debug:
+      ansible.builtin.debug:
         var: oc_mirror_async_status
 
     - name: Display the command output
       ansible.builtin.debug:
-        msg: "{{ oc_mirror_async_status.stdout_lines }}"
+        msg: "{{ oc_mirror_async_result.stdout_lines }}"
