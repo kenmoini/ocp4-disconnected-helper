@@ -209,14 +209,29 @@
       ansible.builtin.debug:
         msg: "{{ oc_mirror_cmd }}"
 
-    - name: Run the mirroring process
+    - name: Run the mirroring process asynchronously for 2 hours
       ansible.builtin.command:
         cmd: "{{ oc_mirror_cmd }}"
         chdir: "{{ target_mirror_path }}"
       environment:
         PATH: "{{ ansible_env.PATH }}:/usr/local/bin"
-      register: oc_mirror_output
+      async: 7200  # Set the timeout for 2 hours (7200 seconds)
+      poll: 10    # Set how often to check the status (in seconds)
+      register: oc_mirror_async_result
+      become: yes  # If the command requires elevated privileges
+
+    - name: Wait for the asynchronous task to complete
+      ansible.builtin.async_status:
+        jid: "{{ oc_mirror_async_result.ansible_job_id }}"
+      register: oc_mirror_async_status
+      until: oc_mirror_async_status.finished
+      retries: 720  # 720 retries at 10-second intervals = 2 hours
+      delay: 10
+
+    - name: Display the result of the asynchronous task
+      debug:
+        var: oc_mirror_async_status
 
     - name: Display the command output
       ansible.builtin.debug:
-        msg: "{{ oc_mirror_output.stdout_lines }}"
+        msg: "{{ oc_mirror_async_status.stdout_lines }}"
