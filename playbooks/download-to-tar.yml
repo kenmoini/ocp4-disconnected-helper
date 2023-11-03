@@ -220,18 +220,6 @@
       register: oc_mirror_async_result
       become: yes  # If the command requires elevated privileges
 
-    - name: Wait for the asynchronous task to complete
-      ansible.builtin.async_status:
-        jid: "{{ oc_mirror_async_result.ansible_job_id }}"
-      register: oc_mirror_async_status
-      until: oc_mirror_async_status.finished
-      retries: 720  # 720 retries at 10-second intervals = 2 hours
-      delay: 10
-
-    - name: Display the result of the asynchronous task
-      ansible.builtin.debug:
-        var: oc_mirror_async_status
-
     - name: Display the command output
       ansible.builtin.debug:
         msg: "{{ oc_mirror_async_result.stdout_lines }}"
