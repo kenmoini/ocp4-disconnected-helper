@@ -163,12 +163,22 @@
         dest: "{{ target_registry_auth_path }}/config.json"
         mode: 0600
 
+
+    - name: Generate Basic Auth Token for each registry
+      ansible.builtin.set_fact:
+        auth_token: "{{ (item.username + ':' + item.password) | b64encode }}"
+      when: item.registry_type == "harbor"
+      loop: "{{ registries }}"
+      loop_control:
+        loop_var: item
+
     - name: Create Harbor Projects
       ansible.builtin.uri:
         url: "https://{{ item.server }}/api/v2.0/projects"
         method: POST
-        user: "{{ item.username }}"
-        password: "{{ item.password }}"
+        headers:
+          Authorization: "Basic {{ auth_token }}"
+          Content-Type: "application/json"
         body_format: json
         status_code: 201
         validate_certs: no
@@ -176,14 +186,16 @@
           {
             "project_name": "{{ item.path }}",
             "metadata": {
-              "public": false
-            }
+              "public": "true"
+            },
+            "storage_limit": -1,
+            "registry_id": null
           }
+      when: item.registry_type == "harbor"
+      ignore_errors: true
       loop: "{{ registries }}"
       loop_control:
         loop_var: item
-      register: result
-      when: item.registry_type == "harbor"
 
     - name: Push the mirror to the remote registry
       ansible.builtin.shell:
