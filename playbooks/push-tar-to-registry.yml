@@ -6,7 +6,7 @@
 ## You need a user to push to your remote registry
 
 - name: Push a local set of oc-mirror packed TAR files to a remote registry
-  hosts: all
+  hosts: localhost
   gather_facts: true
   become: true
 
