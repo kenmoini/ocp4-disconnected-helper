@@ -69,15 +69,15 @@ redhat_catalog_operator_packages:
   - name: odr-hub-operator
 
 operators:
-  - catalog: registry.redhat.io/redhat/certified-operator-index:v4.12
-    packages: "{{ certified_catalog_operator_packages }}"
   - catalog: registry.redhat.io/redhat/certified-operator-index:v4.13
     packages: "{{ certified_catalog_operator_packages }}"
-
-  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.12
-    packages: "{{ redhat_catalog_operator_packages }}"
+  - catalog: registry.redhat.io/redhat/certified-operator-index:v4.14
+    packages: "{{ certified_catalog_operator_packages }}"
 
   - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.13
+    packages: "{{ redhat_catalog_operator_packages }}"
+
+  - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.14
     packages: "{{ redhat_catalog_operator_packages }}"
 
 additional_images:

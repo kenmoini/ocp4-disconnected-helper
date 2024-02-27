@@ -25,6 +25,10 @@ vi extra_vars/download-to-tar-vars.yml
 ```
 
 ```bash=
+ vim ~/rh-pull-secret
+```
+
+```bash=
 # Run the automation
 ansible-playbook -i inventory playbooks/download-to-tar.yml  -e "@extra_vars/download-to-tar-vars.yml"
 ```
