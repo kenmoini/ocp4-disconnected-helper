@@ -42,8 +42,8 @@ redhat_catalog_operator_packages:
   - name: advanced-cluster-management
   # multicluster-engine Operator
   - name: multicluster-engine
-  # multicluster-engine-global-hub Operator
-  - name: multicluster-global-hub-operator-product
+  # multicluster-global-hub-operator-rh Operator
+  - name: multicluster-global-hub-operator-rh
   # OpenShift Virtualization
   - name: kubevirt-hyperconverged
   # Local Storage Operator
