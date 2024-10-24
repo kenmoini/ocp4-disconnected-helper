@@ -1,0 +1,94 @@
+schemaVersion: 2.2.2
+metadata:
+  name: baremetal-playbooks
+components:
+  - name: tooling-container
+    container:
+      image:  quay.io/devspaces/ansible-creator-ee:3.12
+      memoryRequest: 256M
+      memoryLimit: 6Gi
+      cpuRequest: 250m
+      cpuLimit: 2000m
+      args: ['tail', '-f', '/dev/null']
+commands:
+  - id: molecule-test
+    exec:
+      label: "Molecule: Run Scenario for Backup Role"
+      commandLine: 'source $HOME/.bashrc && molecule test'
+      workingDir: ${PROJECTS_ROOT}/ocp4-disconnected-helper
+      group:
+        kind: run
+        isDefault: true
+      component: tooling-container
+  - id: molecule-verify
+    exec:
+      label: "Molecule: Validate Backup File Role"
+      commandLine: 'source $HOME/.bashrc && molecule verify'
+      workingDir: ${PROJECTS_ROOT}/ocp4-disconnected-helper
+      group:
+        kind: run
+        isDefault: true
+      component: tooling-container
+  - id: ansible-navigator
+    exec:
+      label: "Ansible-Navigator: Start ansible-navigator"
+      commandLine: |
+        if [ ! -d "$HOME/.cache/ansible-navigator" ]; then
+          mkdir -p "$HOME/.cache/ansible-navigator"
+        fi
+        cp /usr/local/lib/python3.11/site-packages/ansible_navigator/data/catalog_collections.py $HOME/.cache/ansible-navigator
+        ansible-navigator --ee false
+      workingDir: ${PROJECTS_ROOT}/ocp4-disconnected-helper
+      component: tooling-container
+
+  - id: download-aider-script
+    exec:
+      label: "Download aider setup script"
+      component: tooling-container
+      workingDir: ${PROJECTS_ROOT}/ocp4-disconnected-helper
+      commandLine: |
+        #!/bin/bash 
+        set -x 
+        curl -OL https://gist.githubusercontent.com/tosin2013/e7597e1f4ecabd6f753b3c1b00b45491/raw/9a487ae02f7c067d5d443537a759bdcc0c3b4b80/aider_setup.sh
+        chmod +x aider_setup.sh
+      group:
+        kind: run
+        isDefault: true
+
+  - id: create-venv
+    exec:
+      label: "Create and activate a virtual environment and install aider module"
+      component: tooling-container
+      workingDir: ${PROJECTS_ROOT}/ocp4-disconnected-helper
+      commandLine: "bash ${PROJECTS_ROOT}/ocp4-disconnected-helper/aider_setup.sh --create-venv"
+      group:
+        kind: run
+        isDefault: true
+
+  - id: run-aider
+    exec:
+      label: "Run aider with optimized settings"
+      component: tooling-container
+      workingDir: ${PROJECTS_ROOT}/ocp4-disconnected-helper
+      commandLine: |
+        #!/bin/bash 
+        set -x 
+        export OLLAMA_API_BASE=http://ollama.ollama.svc.cluster.local:11434
+        export OLLAMA_API_KEY="NONE"
+        export MODEL="ollama/granite3-dense:8b"
+        export EDIOTR_MODEL="ollama/granite3-dense:8b"
+        git config --global --add safe.directory /projects
+        git config --local user.name "user1"
+        git config --local user.email "user1@example.com"
+        source aider-env/bin/activate
+        aider playbooks/download-to-tar.yml playbooks/push-tar-to-registry.yml playbooks/tasks/get-operator-catalog-channels.yml \
+          --architect --model "$MODEL" --editor-model $EDIOTR_MODEL \
+          --auto-commits --auto-test --yes --suggest-shell-commands \
+          --check-update  --test-cmd "ansible-lint playbooks/download-to-tar.yml" --edit-format whole
+      group:
+        kind: run
+        isDefault: true
+events:
+  postStart:
+    - download-aider-script
+    - create-venv
