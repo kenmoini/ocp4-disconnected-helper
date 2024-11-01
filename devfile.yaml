@@ -4,7 +4,7 @@ metadata:
 components:
   - name: tooling-container
     container:
-      image:  quay.io/takinosh/ubuntu2410-ansible:356b9d515b6e710c0dbe67c8fbf0d11919df5d5e
+      image:  quay.io/takinosh/ubuntu2410-ansible:e39374aaf0af87e4a987bea41f8943ffdf7b9b3e
       memoryRequest: 256M
       memoryLimit: 6Gi
       cpuRequest: 250m
@@ -98,6 +98,8 @@ commands:
         # Define the model and editor model (Ensure these variables are set in your environment)
         ./aider_setup.sh --create-venv
         source aider-env/bin/activate
+        mkdir -p /tmp/.ansible
+        export ANSIBLE_HOME=/tmp/.ansible
         export OLLAMA_API_BASE=http://ollama.ollama.svc.cluster.local:11434
         export MODEL="ollama/granite3-dense:8b"
         export EDITOR_MODEL="ollama/granite3-dense:8b"
