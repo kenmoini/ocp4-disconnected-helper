@@ -4,7 +4,7 @@ metadata:
 components:
   - name: tooling-container
     container:
-      image:  quay.io/takinosh/ubuntu2410-ansible:d0d00c4aafda74caabb3d85c7cccdf68e1fcc05c
+      image:  quay.io/takinosh/ubuntu2410-ansible:356b9d515b6e710c0dbe67c8fbf0d11919df5d5e
       memoryRequest: 256M
       memoryLimit: 6Gi
       cpuRequest: 250m
