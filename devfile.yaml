@@ -10,6 +10,9 @@ components:
       cpuRequest: 250m
       cpuLimit: 2000m
       args: ['tail', '-f', '/dev/null']
+      env:
+        - name: HOME
+          value: /projects/ocp4-disconnected-helper
 commands:
   - id: set-permissions
     exec:
