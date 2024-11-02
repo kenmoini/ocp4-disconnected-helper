@@ -16,6 +16,7 @@ commands:
       label: "Set Permissions for ocp4-disconnected-helper"
       commandLine: |
         chown -R 1000780000:0 /projects/ocp4-disconnected-helper
+        chmod -R 755 /projects/ocp4-disconnected-helper
       workingDir: /
       component: tooling-container
   - id: molecule-test
