@@ -11,6 +11,13 @@ components:
       cpuLimit: 2000m
       args: ['tail', '-f', '/dev/null']
 commands:
+  - id: set-permissions
+    exec:
+      label: "Set Permissions for ocp4-disconnected-helper"
+      commandLine: |
+        chown -R 1000780000:0 /projects/ocp4-disconnected-helper
+      workingDir: /
+      component: tooling-container
   - id: molecule-test
     exec:
       label: "Molecule: Run Scenario for Backup Role"
@@ -140,5 +147,6 @@ commands:
         isDefault: true
 events:
   postStart:
+    - set-permissions
     - download-aider-script
     - create-venv
