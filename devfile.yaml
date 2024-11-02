@@ -99,7 +99,11 @@ commands:
         ./aider_setup.sh --create-venv
         source aider-env/bin/activate
         mkdir -p /tmp/.ansible
+        mkdir -p /tmp/.ansible/cache
+        mkdir -p /tmp/.ansible/tmp
+        mkdir -p /tmp/.cache
         export ANSIBLE_HOME=/tmp/.ansible
+        export XDG_CACHE_HOME=/tmp/.cache
         export OLLAMA_API_BASE=http://ollama.ollama.svc.cluster.local:11434
         export MODEL="ollama/granite3-dense:8b"
         export EDITOR_MODEL="ollama/granite3-dense:8b"
