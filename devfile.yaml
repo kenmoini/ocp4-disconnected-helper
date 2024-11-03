@@ -14,16 +14,6 @@ components:
         - name: HOME
           value: /projects/ocp4-disconnected-helper
 commands:
-  - id: set-permissions
-    exec:
-      label: "Set Permissions for ocp4-disconnected-helper"
-      commandLine: |
-        chown -R 1000780000:0 /projects/ocp4-disconnected-helper
-        chmod -R 755 /projects/ocp4-disconnected-helper
-        source /opt/ansible-venv/bin/activate
-        /opt/ansible-venv/bin/python -m playwright install --with-deps chromium
-      workingDir: /
-      component: tooling-container
   - id: molecule-test
     exec:
       label: "Molecule: Run Scenario for Backup Role"
@@ -152,6 +142,5 @@ commands:
         isDefault: true
 events:
   postStart:
-    - set-permissions
     - download-aider-script
     - create-venv
