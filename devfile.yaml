@@ -107,8 +107,6 @@ commands:
         set -x
 
         # Define the model and editor model (Ensure these variables are set in your environment)
-        ./aider_setup.sh --create-venv
-        source aider-env/bin/activate
         mkdir -p /tmp/.ansible
         mkdir -p /tmp/.ansible/cache
         mkdir -p /tmp/.ansible/tmp
