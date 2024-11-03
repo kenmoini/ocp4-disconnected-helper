@@ -9,7 +9,7 @@ components:
       memoryLimit: 6Gi
       cpuRequest: 250m
       cpuLimit: 2000m
-      args: ['su', '-', 'ansible', '-c', 'tail -f /dev/null']
+      args: ['tail', '-f', '/dev/null']
       env:
         - name: HOME
           value: /projects/ocp4-disconnected-helper
@@ -20,6 +20,8 @@ commands:
       commandLine: |
         chown -R 1000780000:0 /projects/ocp4-disconnected-helper
         chmod -R 755 /projects/ocp4-disconnected-helper
+        source /opt/ansible-venv/bin/activate
+        /opt/ansible-venv/bin/python -m playwright install --with-deps chromium
       workingDir: /
       component: tooling-container
   - id: molecule-test
@@ -107,6 +109,7 @@ commands:
         set -x
 
         # Define the model and editor model (Ensure these variables are set in your environment)
+        source aider-env/bin/activate
         mkdir -p /tmp/.ansible
         mkdir -p /tmp/.ansible/cache
         mkdir -p /tmp/.ansible/tmp
