@@ -1,0 +1,29 @@
+name: 'Ansible Lint and Refactor'
+description: 'A Github action for fixing Ansible-lint failures and refactoring Ansible playbooks and tasks.'
+author: 'Tosin Akinosho tosin.akinosho@gmail.com'
+branding:
+  icon: 'box'
+  color: 'green'
+
+runs:
+  using: 'docker'
+  image: 'ansible-lint-and-refactor:694a037776d8af9e13e82541a02715dba55dcf73'
+
+env:
+  OLLAMA_API_BASE: 'https://ollama-ollama.apps.cluster-lvz8z.lvz8z.sandbox2288.opentlc.com'
+  MODEL: 'ollama/granite3-dense:8b'
+  EDITOR_MODEL: 'ollama/granite3-dense:8b'
+  PLAYBOOKS_DIR: 'playbooks/'
+  TASKS_DIR: 'playbooks/tasks/'
+
+jobs:
+  ansible-lint-and-refactor:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Run Ansible Lint and Refactor
+      run: |
+        chmod +x /opt/ansible-venv/bin/ansible-lint-script.sh
+        /opt/ansible-venv/bin/ansible-lint-script.sh
