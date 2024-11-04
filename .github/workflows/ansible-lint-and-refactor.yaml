@@ -20,9 +20,6 @@ jobs:
       image: 'quay.io/takinosh/ansible-lint-and-refactor:694a037776d8af9e13e82541a02715dba55dcf73'
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
       - name: Run Ansible Lint and Refactor in Container
         uses: addnab/docker-run-action@v3
         with:
