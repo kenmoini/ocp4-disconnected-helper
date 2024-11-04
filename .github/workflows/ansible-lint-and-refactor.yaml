@@ -36,5 +36,5 @@ jobs:
             ls -lath .
             echo ${OLLAMA_API_BASE} || exit $?
             echo "USING MODEL: ${MODEL}"
-            /opt/ansible-venv/bin/ansible-lint-script.sh /workspace
+            /opt/ansible-venv/bin/ansible-lint-script.sh
       
