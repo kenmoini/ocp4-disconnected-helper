@@ -25,6 +25,13 @@ jobs:
         with:
           image: quay.io/takinosh/ansible-lint-and-refactor:b9c0ace9f2dbb79797f9544ea5fd9af42338fcb7
           options: -v ${{ github.workspace }}:/workspace
+          env:
+            OLLAMA_API_BASE: ${{ secrets.OLLAMA_API_BASE }}
+            MODEL: ${{ secrets.MODEL }}
+            EDITOR_MODEL: ${{ secrets.EDITOR_MODEL }}
+            PLAYBOOKS_DIR: '/workspace/playbooks/'
+            TASKS_DIR: '/workspace/playbooks/tasks/'
           run: |
             set -e
+            echo ${OLLAMA_API_BASE} || exit $?
             /opt/ansible-venv/bin/ansible-lint-script.sh /workspace
