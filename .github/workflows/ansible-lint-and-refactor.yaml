@@ -17,13 +17,13 @@ jobs:
       PLAYBOOKS_DIR: '/workspace/playbooks/'
       TASKS_DIR: '/workspace/playbooks/tasks/'
     container:
-      image: 'quay.io/takinosh/ansible-lint-and-refactor:694a037776d8af9e13e82541a02715dba55dcf73'
+      image: 'quay.io/takinosh/ansible-lint-and-refactor:b9c0ace9f2dbb79797f9544ea5fd9af42338fcb7'
 
     steps:
       - name: Run Ansible Lint and Refactor in Container
         uses: addnab/docker-run-action@v3
         with:
-          image: quay.io/takinosh/ansible-lint-and-refactor:694a037776d8af9e13e82541a02715dba55dcf73
+          image: quay.io/takinosh/ansible-lint-and-refactor:b9c0ace9f2dbb79797f9544ea5fd9af42338fcb7
           options: -v ${{ github.workspace }}:/workspace
           run: |
             set -e
