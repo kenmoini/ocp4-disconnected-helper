@@ -29,10 +29,12 @@ jobs:
             -e OLLAMA_API_BASE=${{ secrets.OLLAMA_API_BASE }}
             -e MODEL=${{ secrets.MODEL }}
             -e EDITOR_MODEL=${{ secrets.EDITOR_MODEL }}
-            -e PLAYBOOKS_DIR='/workspace/playbooks/'
-            -e TASKS_DIR='/workspace/playbooks/tasks/'
+            -e PLAYBOOKS_DIR=/workspace/playbooks/
+            -e TASKS_DIR=/workspace/playbooks/tasks/
           run: |
             set -e
+            ls -lath .
             echo ${OLLAMA_API_BASE} || exit $?
+            echo "USING MODEL: ${MODEL}"
             /opt/ansible-venv/bin/ansible-lint-script.sh /workspace
       
