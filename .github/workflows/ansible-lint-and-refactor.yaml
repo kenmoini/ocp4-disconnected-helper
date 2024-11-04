@@ -22,7 +22,7 @@ jobs:
       - name: Run Ansible Lint and Refactor in Container
         uses: addnab/docker-run-action@v3
         with:
-          image: quay.io/takinosh/ansible-lint-and-refactor:b9c0ace9f2dbb79797f9544ea5fd9af42338fcb7
+          image: quay.io/takinosh/ansible-lint-and-refactor:da3de0378544e860d38371435a8b42af8981fb70
           options: |
             -v ${{ github.workspace }}:/workspace
             -e OLLAMA_API_BASE=${{ secrets.OLLAMA_API_BASE }}
