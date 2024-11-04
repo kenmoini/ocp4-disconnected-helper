@@ -13,7 +13,11 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 # Required to mount the Github Workspace to a volume
+        uses: actions/checkout@v4
+
+      - name: Adjust Workspace Permissions
+        run: |
+          sudo chown -R 1000:1000 ${{ github.workspace }}
 
       - name: Run Ansible Lint and Refactor in Container
         uses: addnab/docker-run-action@v3
@@ -31,8 +35,7 @@ jobs:
             whoami
             ls -lath /workspace
             ls -ld /workspace/.git
-            exit 1
             cd /workspace
-            echo ${OLLAMA_API_BASE} || exit $?
+            echo ${OLLAMA_API_BASE}
             echo "USING MODEL: ${MODEL}"
-            /opt/ansible-venv/bin/ansible-lint-script.sh || exit $?
+            /opt/ansible-venv/bin/ansible-lint-script.sh || exit 1
