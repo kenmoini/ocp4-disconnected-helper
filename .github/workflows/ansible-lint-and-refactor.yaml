@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout 
-        uses: actions/checkout@v4 # Required to mount the Github Workspace to a volume 
+      - name: Checkout
+        uses: actions/checkout@v4 # Required to mount the Github Workspace to a volume
 
       - name: Run Ansible Lint and Refactor in Container
         uses: addnab/docker-run-action@v3
@@ -29,6 +29,7 @@ jobs:
           run: |
             set -e
             ls -lath /workspace
+            ls -ld /workspace/.git
             #exit 1
             cd /workspace
             echo ${OLLAMA_API_BASE} || exit $?
