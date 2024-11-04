@@ -26,6 +26,5 @@ jobs:
           image: quay.io/takinosh/ansible-lint-and-refactor:694a037776d8af9e13e82541a02715dba55dcf73
           options: -v ${{ github.workspace }}:/workspace
           run: |
-            chmod +x /opt/ansible-venv/bin/ansible-lint-script.sh
+            set -e
             /opt/ansible-venv/bin/ansible-lint-script.sh /workspace
-      
