@@ -35,6 +35,7 @@ jobs:
             set -e
             ls -lath .
             pwd 
+            ls -lath /workspace
             exit 1
             echo ${OLLAMA_API_BASE} || exit $?
             echo "USING MODEL: ${MODEL}"
