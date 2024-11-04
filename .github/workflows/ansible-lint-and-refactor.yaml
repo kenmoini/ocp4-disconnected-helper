@@ -23,7 +23,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Ansible Lint and Refactor
-        run: |
-          chmod +x /opt/ansible-venv/bin/ansible-lint-script.sh
-          /opt/ansible-venv/bin/ansible-lint-script.sh
+      - name: Run Ansible Lint and Refactor in Container
+        uses: addnab/docker-run-action@v3
+        with:
+          image: quay.io/yourusername/ansible-lint-and-refactor:latest
+          options: -v ${{ github.workspace }}:/workspace
+          run: |
+            chmod +x /opt/ansible-venv/bin/ansible-lint-script.sh
+            /opt/ansible-venv/bin/ansible-lint-script.sh /workspace
+      
