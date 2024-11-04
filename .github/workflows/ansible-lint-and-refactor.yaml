@@ -28,9 +28,10 @@ jobs:
             -e TASKS_DIR=playbooks/tasks/
           run: |
             set -e
+            whoami
             ls -lath /workspace
             ls -ld /workspace/.git
-            #exit 1
+            exit 1
             cd /workspace
             echo ${OLLAMA_API_BASE} || exit $?
             echo "USING MODEL: ${MODEL}"
