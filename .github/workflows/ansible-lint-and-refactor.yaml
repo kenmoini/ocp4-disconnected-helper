@@ -14,8 +14,8 @@ jobs:
       OLLAMA_API_BASE: ${{ secrets.OLLAMA_API_BASE }}
       MODEL: ${{ secrets.MODEL }}
       EDITOR_MODEL: ${{ secrets.EDITOR_MODEL }}
-      PLAYBOOKS_DIR: 'playbooks/'
-      TASKS_DIR: 'playbooks/tasks/'
+      PLAYBOOKS_DIR: '/workspace/playbooks/'
+      TASKS_DIR: '/workspace/playbooks/tasks/'
     container:
       image: 'quay.io/takinosh/ansible-lint-and-refactor:694a037776d8af9e13e82541a02715dba55dcf73'
 
