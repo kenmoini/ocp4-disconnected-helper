@@ -17,7 +17,7 @@ jobs:
       PLAYBOOKS_DIR: 'playbooks/'
       TASKS_DIR: 'playbooks/tasks/'
     container:
-      image: 'ansible-lint-and-refactor:694a037776d8af9e13e82541a02715dba55dcf73'
+      image: 'quay.io/takinosh/ansible-lint-and-refactor:694a037776d8af9e13e82541a02715dba55dcf73'
 
     steps:
       - name: Checkout repository
