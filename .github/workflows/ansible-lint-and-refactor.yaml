@@ -1,7 +1,4 @@
 name: 'Ansible Lint and Refactor'
-description: 'A Github action for fixing Ansible-lint failures and refactoring Ansible playbooks and tasks.'
-author: 'Tosin Akinosho tosin.akinosho@gmail.com'
-
 on:
   push:
     branches:
